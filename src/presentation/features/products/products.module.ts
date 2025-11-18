@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { ProductsRepository } from '../sales/products.repository'
 import { ProductControllers } from './adapters/http/index'
-import { CreateProductUseCase } from './use-cases/create-product.use-case'
+import { ProductsUseCases } from './use-cases'
 
 @Module({
   imports: [],
   controllers: [...ProductControllers],
-  providers: [CreateProductUseCase, ProductsRepository],
-  exports: [CreateProductUseCase, ProductsRepository],
+  providers: [...ProductsUseCases, ProductsRepository],
+  exports: [...ProductsUseCases, ProductsRepository],
 })
 export class ProductModule {}

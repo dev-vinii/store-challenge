@@ -1,22 +1,27 @@
-import { Column } from 'typeorm'
+import { Column, Entity } from 'typeorm'
 import { BaseEntity } from '../../base.entity'
 
+@Entity('products')
 export class ProductEntity extends BaseEntity {
   @Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
   name: string
 
-  @Column({ name: 'description', type: 'varchar', length: 255 })
+  @Column({
+    name: 'description',
+    type: 'varchar',
+    length: 255,
+    nullable: false,
+  })
   description: string
 
-  @Column({ name: 'category', type: 'varchar', length: 255 })
+  @Column({ name: 'category', type: 'varchar', length: 255, nullable: false })
   category: string
 
   @Column({
     name: 'price',
-    type: 'decimal',
-    precision: 10,
-    scale: 2,
+    type: 'integer',
     nullable: false,
+    comment: 'Price in cents',
   })
   price: number
 
