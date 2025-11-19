@@ -2,44 +2,52 @@ import { ApiProperty } from '@nestjs/swagger'
 
 export class PaginatedResponse<T> {
   @ApiProperty({ isArray: true })
-  items: T[]
+  data: T[]
 
   @ApiProperty({
     type: 'object',
     properties: {
-      page: { type: 'number', example: 0 },
-      limit: { type: 'number', example: 10 },
-      total: { type: 'number', example: 100 },
-      totalPages: { type: 'number', example: 10 },
+      hasNextPage: { type: 'boolean', example: true },
+      hasPreviousPage: { type: 'boolean', example: false },
+      nextCursor: { type: 'string', nullable: true, example: '123' },
     },
   })
   meta: {
-    page: number
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+    nextCursor: string | null
     limit: number
-    total: number
-    totalPages: number
   }
 
-  private constructor(items: T[], page: number, limit: number, total: number) {
-    this.items = items
+  private constructor(
+    items: T[],
+    limit: number,
+    cursor: string | null,
+    nextCursor: string | null = null,
+    hasNextPage: boolean = false,
+  ) {
+    this.data = items
     this.meta = {
-      page,
+      hasNextPage: hasNextPage,
+      hasPreviousPage: cursor !== null && cursor !== '',
+      nextCursor,
       limit,
-      total,
-      totalPages: Math.ceil(total / limit) || 0,
     }
   }
 
   static create<T>(
     items: T[],
-    page: number,
     limit: number,
-    total: number,
+    currentCursor: string | null = null,
+    nextCursor: string | null = null,
+    hasNextPage: boolean = false,
   ): PaginatedResponse<T> {
-    return new PaginatedResponse(items, page, limit, total)
-  }
-
-  static empty<T>(): PaginatedResponse<T> {
-    return new PaginatedResponse([], 0, 10, 0)
+    return new PaginatedResponse(
+      items,
+      limit,
+      currentCursor,
+      nextCursor,
+      hasNextPage,
+    )
   }
 }

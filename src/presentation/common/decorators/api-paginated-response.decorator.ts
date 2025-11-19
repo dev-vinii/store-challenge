@@ -12,17 +12,21 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(
         allOf: [
           {
             properties: {
-              items: {
+              data: {
                 type: 'array',
                 items: { $ref: getSchemaPath(model) },
               },
               meta: {
                 type: 'object',
                 properties: {
-                  page: { type: 'number', example: 1 },
-                  limit: { type: 'number', example: 10 },
-                  total: { type: 'number', example: 100 },
-                  totalPages: { type: 'number', example: 10 },
+                  hasNextPage: { type: 'boolean', example: true },
+                  hasPreviousPage: { type: 'boolean', example: false },
+                  nextCursor: {
+                    type: 'string',
+                    nullable: true,
+                    example: '123',
+                  },
+                  count: { type: 'number', example: 10 },
                 },
               },
             },

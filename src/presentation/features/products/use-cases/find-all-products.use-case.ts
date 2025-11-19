@@ -10,20 +10,32 @@ export class FindAllProductsUseCase {
   constructor(private readonly productRepository: ProductsRepository) {}
 
   async execute({
-    page = 0,
+    cursor = '',
     limit = 10,
   }: BasePaginationDto): Promise<PaginatedResponse<FindAllProductsResponse>> {
-    const products = await this.productRepository.find({
-      skip: page * limit,
-      take: limit,
+    const products = await this.productRepository.findpaginated({
+      cursor,
+      limit,
     })
 
-    const items = plainToInstance(FindAllProductsResponse, products, {
-      excludeExtraneousValues: true,
-    })
+    const nextCursor = products[products.length - 1]?.id
 
-    const total = await this.productRepository.count({})
+    const hasNextPage = products.length > limit
 
-    return PaginatedResponse.create(items, page, limit, total)
+    const items = plainToInstance(
+      FindAllProductsResponse,
+      products.slice(0, limit),
+      {
+        excludeExtraneousValues: true,
+      },
+    )
+
+    return PaginatedResponse.create(
+      items,
+      limit,
+      cursor,
+      nextCursor,
+      hasNextPage,
+    )
   }
 }
