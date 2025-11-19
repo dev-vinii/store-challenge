@@ -1,5 +1,18 @@
+import { ApiProperty } from '@nestjs/swagger'
+
 export class PaginatedResponse<T> {
+  @ApiProperty({ isArray: true })
   items: T[]
+
+  @ApiProperty({
+    type: 'object',
+    properties: {
+      page: { type: 'number', example: 0 },
+      limit: { type: 'number', example: 10 },
+      total: { type: 'number', example: 100 },
+      totalPages: { type: 'number', example: 10 },
+    },
+  })
   meta: {
     page: number
     limit: number

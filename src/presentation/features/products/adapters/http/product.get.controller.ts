@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger'
+import { ApiPaginatedResponse } from 'src/presentation/common/decorators/api-paginated-response.decorator'
 import { BasePaginationDto } from 'src/presentation/common/dto/base-pagination.dto'
 import { PaginatedResponse } from 'src/presentation/common/factories/pagination.factory'
 import { FindAllProductsResponse } from '../../dto/response/find-all-products.response'
@@ -7,12 +8,14 @@ import { FindAllProductsUseCase } from '../../use-cases/find-all-products.use-ca
 
 @ApiTags('Products')
 @Controller('products')
+@ApiExtraModels(FindAllProductsResponse, PaginatedResponse)
 export class ProductGetController {
   constructor(
     private readonly findAllProductsUseCase: FindAllProductsUseCase,
   ) {}
 
   @Get()
+  @ApiPaginatedResponse(FindAllProductsResponse)
   async create(
     @Query() query: BasePaginationDto,
   ): Promise<PaginatedResponse<FindAllProductsResponse>> {
