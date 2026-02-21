@@ -1,5 +1,7 @@
 import { BullModule } from '@nestjs/bullmq'
 import { Global, Module } from '@nestjs/common'
+import { ProductsProcessor } from 'src/presentation/features/products/products.processor'
+import { Queue } from './common/queue.enum'
 
 @Global()
 @Module({
@@ -11,13 +13,17 @@ import { Global, Module } from '@nestjs/common'
       },
     }),
     BullModule.registerQueue({
-      name: 'products',
+      name: Queue.PRODUCTS,
       defaultJobOptions: {
         attempts: 3,
         backoff: 1000,
       },
     }),
+    BullModule.registerFlowProducer({
+      name: Queue.PRODUCTS,
+    }),
   ],
+  providers: [ProductsProcessor],
   exports: [BullModule],
 })
 export class QueueModule {}

@@ -1,12 +1,16 @@
+import { BullModule } from '@nestjs/bullmq'
 import { Module } from '@nestjs/common'
+import { Queue } from 'src/infra/queue/common/queue.enum'
 import { ProductsRepository } from '../sales/products.repository'
 import { ProductControllers } from './adapters/http/index'
+import { ProductsProcessor } from './products.processor'
+import { ProductsQueueService } from './products-queue.service'
 import { ProductsUseCases } from './use-cases'
 
 @Module({
-  imports: [],
+  imports: [BullModule.registerQueue({ name: Queue.PRODUCTS })],
   controllers: [...ProductControllers],
-  providers: [...ProductsUseCases, ProductsRepository],
+  providers: [...ProductsUseCases, ProductsRepository, ProductsProcessor, ProductsQueueService],
   exports: [...ProductsUseCases, ProductsRepository],
 })
 export class ProductModule {}
