@@ -1,13 +1,19 @@
+import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import helmet from 'helmet'
 import { AppModule } from './app.module'
 import { databaseProvider } from './infra/db/common/database.provider'
+import { LoggingInterceptor } from './presentation/common/interceptors/logging.interceptor'
 
 async function bootstrap() {
+  const logger = new Logger()
+
   const app = await NestFactory.create(AppModule)
 
   app.setGlobalPrefix('api')
+
+  app.useGlobalInterceptors(new LoggingInterceptor())
 
   app.use(helmet())
 
@@ -24,7 +30,11 @@ async function bootstrap() {
 
   await databaseProvider.initialize()
 
-  await app.listen(process.env.PORT ?? 8080)
+  const port = process.env.PORT ?? 8080
+
+  await app.listen(port)
+
+  logger.log(`Application is running on: ${port}`)
 }
 
 void bootstrap()
