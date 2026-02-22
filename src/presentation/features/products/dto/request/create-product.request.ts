@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsArray,
   IsInt,
@@ -6,7 +6,7 @@ import {
   IsNumber,
   IsPositive,
   IsString,
-} from 'class-validator'
+} from 'class-validator';
 
 export class CreateProductRequest {
   @ApiProperty({
@@ -15,7 +15,7 @@ export class CreateProductRequest {
   })
   @IsString()
   @IsNotEmpty()
-  name: string
+  name: string;
 
   @ApiProperty({
     description: 'Product description',
@@ -24,7 +24,7 @@ export class CreateProductRequest {
   })
   @IsString()
   @IsNotEmpty()
-  description: string
+  description: string;
 
   @ApiProperty({
     description: 'Product category',
@@ -32,7 +32,7 @@ export class CreateProductRequest {
   })
   @IsString()
   @IsNotEmpty()
-  category: string
+  category: string;
 
   @ApiProperty({
     description: 'Product price in cents',
@@ -42,7 +42,7 @@ export class CreateProductRequest {
   @IsNumber()
   @IsPositive()
   @IsNotEmpty()
-  price: number
+  price: number;
 
   @ApiProperty({
     description: 'Available stock quantity',
@@ -52,7 +52,7 @@ export class CreateProductRequest {
   @IsInt()
   @IsPositive()
   @IsNotEmpty()
-  stock: number
+  stock: number;
 
   @ApiProperty({
     description: 'Product tags for categorization',
@@ -61,5 +61,5 @@ export class CreateProductRequest {
   })
   @IsArray()
   @IsString({ each: true })
-  tags: string[]
+  tags: string[];
 }

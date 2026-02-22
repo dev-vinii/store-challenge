@@ -1,10 +1,10 @@
-import { Column, Entity } from 'typeorm'
-import { BaseEntity } from '../../base.entity'
+import { Column, Entity } from 'typeorm';
+import { BaseEntity } from '../../base.entity';
 
 @Entity('products')
 export class ProductEntity extends BaseEntity {
   @Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
-  name: string
+  name: string;
 
   @Column({
     name: 'description',
@@ -12,10 +12,10 @@ export class ProductEntity extends BaseEntity {
     length: 255,
     nullable: false,
   })
-  description: string
+  description: string;
 
   @Column({ name: 'category', type: 'varchar', length: 255, nullable: false })
-  category: string
+  category: string;
 
   @Column({
     name: 'price',
@@ -23,11 +23,11 @@ export class ProductEntity extends BaseEntity {
     nullable: false,
     comment: 'Price in cents',
   })
-  price: number
+  price: number;
 
   @Column({ name: 'stock', type: 'integer', nullable: false })
-  stock: number
+  stock: number;
 
   @Column({ name: 'tags', type: 'simple-array', nullable: true })
-  tags: string[]
+  tags: string[];
 }

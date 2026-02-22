@@ -3,9 +3,9 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
-} from '@nestjs/common'
-import { Observable, from, lastValueFrom } from 'rxjs'
-import { DatabaseProvider } from '../database.provider'
+} from '@nestjs/common';
+import { Observable, from, lastValueFrom } from 'rxjs';
+import { DatabaseProvider } from '../database.provider';
 
 @Injectable()
 export class TransactionInterceptor implements NestInterceptor {
@@ -14,18 +14,18 @@ export class TransactionInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return from(
       (async () => {
-        await this.databaseProvider.startTransaction()
+        await this.databaseProvider.startTransaction();
         try {
-          const result = await lastValueFrom(next.handle())
-          await this.databaseProvider.commitTransaction()
-          return result
+          const result = await lastValueFrom(next.handle());
+          await this.databaseProvider.commitTransaction();
+          return result;
         } catch (error) {
-          await this.databaseProvider.rollbackTransaction()
-          throw error
+          await this.databaseProvider.rollbackTransaction();
+          throw error;
         } finally {
-          await this.databaseProvider.endTransaction()
+          await this.databaseProvider.endTransaction();
         }
       })(),
-    )
+    );
   }
 }

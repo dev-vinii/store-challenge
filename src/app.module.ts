@@ -1,14 +1,20 @@
-import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { CacheModule } from './infra/cache/cache.module'
-import { DatabaseModule } from './infra/db/database.module'
-import { QueueModule } from './infra/queue/queue.module'
-import { SearchModule } from './infra/search/search.module'
-import { ProductModule } from './presentation/features/products/products.module'
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { CacheModule } from './infra/cache/cache.module';
+import { DatabaseModule } from './infra/db/database.module';
+import { QueueModule } from './infra/queue/queue.module';
+import { SearchModule } from './infra/search/search.module';
+import { ProductModule } from './presentation/features/products/products.module';
 
 @Module({
-  imports: [DatabaseModule, CacheModule, SearchModule, QueueModule, ProductModule],
+  imports: [
+    DatabaseModule,
+    CacheModule,
+    SearchModule,
+    QueueModule,
+    ProductModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

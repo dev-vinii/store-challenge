@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { ProductsRepository } from '../../sales/products.repository'
-import { CreateProductRequest } from '../dto/request/create-product.request'
-import { ProductsQueueService } from '../products-queue.service'
+import { Injectable } from '@nestjs/common';
+import { ProductsRepository } from '../../sales/products.repository';
+import { CreateProductRequest } from '../dto/request/create-product.request';
+import { ProductsQueueService } from '../products-queue.service';
 
 @Injectable()
 export class CreateProductUseCase {
@@ -11,8 +11,8 @@ export class CreateProductUseCase {
   ) {}
 
   async execute(product: CreateProductRequest): Promise<void> {
-    const productEntity = await this.productRepository.save(product)
+    const productEntity = await this.productRepository.save(product);
 
-    await this.productsQueueService.addIndexJob(productEntity)
+    await this.productsQueueService.addIndexJob(productEntity);
   }
 }

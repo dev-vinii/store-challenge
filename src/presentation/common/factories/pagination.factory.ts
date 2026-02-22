@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 
 export class PaginatedResponse<T> {
   @ApiProperty({ isArray: true })
-  data: T[]
+  data: T[];
 
   @ApiProperty({
     type: 'object',
@@ -13,11 +13,11 @@ export class PaginatedResponse<T> {
     },
   })
   meta: {
-    hasNextPage: boolean
-    hasPreviousPage: boolean
-    nextCursor: string | null
-    limit: number
-  }
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    nextCursor: string | null;
+    limit: number;
+  };
 
   private constructor(
     items: T[],
@@ -26,13 +26,13 @@ export class PaginatedResponse<T> {
     nextCursor: string | null = null,
     hasNextPage: boolean = false,
   ) {
-    this.data = items
+    this.data = items;
     this.meta = {
       hasNextPage: hasNextPage,
       hasPreviousPage: cursor !== null && cursor !== '',
       nextCursor,
       limit,
-    }
+    };
   }
 
   static create<T>(
@@ -48,6 +48,6 @@ export class PaginatedResponse<T> {
       currentCursor,
       nextCursor,
       hasNextPage,
-    )
+    );
   }
 }

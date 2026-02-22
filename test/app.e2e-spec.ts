@@ -1,25 +1,23 @@
-import { INestApplication } from '@nestjs/common'
-import { Test, TestingModule } from '@nestjs/testing'
-import request from 'supertest'
-import { App } from 'supertest/types'
-import { AppModule } from './../src/app.module'
+import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
+import { App } from 'supertest/types';
+import { createTestApp } from './helpers/app.helper';
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication<App>
+  let app: INestApplication<App>;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile()
+  beforeAll(async () => {
+    app = await createTestApp();
+  });
 
-    app = moduleFixture.createNestApplication()
-    await app.init()
-  })
+  afterAll(async () => {
+    await app.close();
+  });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
+  it('GET /api/ping should return pong!', async () => {
+    await request(app.getHttpServer())
+      .get('/api/ping')
       .expect(200)
-      .expect('Hello World!')
-  })
-})
+      .expect('pong!');
+  });
+});

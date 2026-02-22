@@ -10,9 +10,9 @@ import {
   Repository,
   SelectQueryBuilder,
   UpdateResult,
-} from 'typeorm'
-import { DatabaseProvider } from './database.provider'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+} from 'typeorm';
+import { DatabaseProvider } from './database.provider';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 export abstract class BaseRepository<T extends ObjectLiteral> {
   constructor(
@@ -21,19 +21,19 @@ export abstract class BaseRepository<T extends ObjectLiteral> {
   ) {}
 
   protected get repository(): Repository<T> {
-    return this.databaseProvider.getRepository(this.entity)
+    return this.databaseProvider.getRepository(this.entity);
   }
 
   getQueryRunner(): QueryRunner | null {
-    return this.databaseProvider.getQueryRunner()
+    return this.databaseProvider.getQueryRunner();
   }
 
   async save(entity: DeepPartial<T>): Promise<T> {
-    return this.repository.save(entity)
+    return this.repository.save(entity);
   }
 
   async find(options: FindManyOptions<T>): Promise<T[]> {
-    return this.repository.find(options)
+    return this.repository.find(options);
   }
 
   async softDelete(
@@ -48,7 +48,7 @@ export abstract class BaseRepository<T extends ObjectLiteral> {
       | ObjectId[]
       | FindOptionsWhere<T>,
   ): Promise<UpdateResult> {
-    return this.repository.softDelete(criteria)
+    return this.repository.softDelete(criteria);
   }
 
   async update(
@@ -64,31 +64,31 @@ export abstract class BaseRepository<T extends ObjectLiteral> {
       | FindOptionsWhere<T>,
     entity: QueryDeepPartialEntity<T>,
   ): Promise<UpdateResult> {
-    return this.repository.update(criteria, entity)
+    return this.repository.update(criteria, entity);
   }
 
   async findOne(options: FindOneOptions<T>): Promise<T | null> {
-    return this.repository.findOne(options)
+    return this.repository.findOne(options);
   }
 
   async count(options: FindManyOptions<T>): Promise<number> {
-    return this.repository.count(options)
+    return this.repository.count(options);
   }
 
   async countBy(
     where: FindOptionsWhere<T> | FindOptionsWhere<T>[],
   ): Promise<number> {
-    return this.repository.countBy(where)
+    return this.repository.countBy(where);
   }
 
   create(entity: DeepPartial<T>): T {
-    return this.repository.create(entity)
+    return this.repository.create(entity);
   }
 
   createQueryBuilder(
     alias?: string,
     queryRunner?: QueryRunner,
   ): SelectQueryBuilder<T> {
-    return this.repository.createQueryBuilder(alias, queryRunner)
+    return this.repository.createQueryBuilder(alias, queryRunner);
   }
 }

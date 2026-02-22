@@ -1,5 +1,5 @@
-import { Global, Module } from '@nestjs/common'
-import { SearchProvider, searchProvider } from './search.provider'
+import { Global, Module } from '@nestjs/common';
+import { SearchProvider, searchProvider } from './search.provider';
 
 @Global()
 @Module({

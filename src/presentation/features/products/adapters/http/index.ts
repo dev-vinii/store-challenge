@@ -1,6 +1,6 @@
-import { ProductGetController } from './product.get.controller'
-import { ProductPostController } from './product.post.controller'
+import { ProductGetController } from './product.get.controller';
+import { ProductPostController } from './product.post.controller';
 
-export { ProductGetController, ProductPostController }
+export { ProductGetController, ProductPostController };
 
-export const ProductControllers = [ProductPostController, ProductGetController]
+export const ProductControllers = [ProductPostController, ProductGetController];

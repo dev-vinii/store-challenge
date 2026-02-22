@@ -14,4 +14,4 @@ export const productsIndex = {
       deleted_at: { type: 'date' as const },
     },
   },
-}
+};
