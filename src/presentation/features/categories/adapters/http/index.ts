@@ -3,7 +3,7 @@ import { CategoryPostController } from './category.post.controller';
 
 export { CategoryGetController, CategoryPostController };
 
-export const CategoryControllers = [
+export const CategoriesControllers = [
   CategoryPostController,
   CategoryGetController,
 ];
