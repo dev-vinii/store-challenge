@@ -6,12 +6,12 @@ import { BasePaginationDto } from 'src/presentation/common/dto/base-pagination.d
 
 @Injectable()
 export class ProductsRepository extends BaseRepository<ProductEntity> {
-  constructor(databaseProvider: DatabaseProvider) {
-    super(ProductEntity, databaseProvider);
+  constructor(dbProvider: DatabaseProvider) {
+    super(ProductEntity, dbProvider);
   }
 
   findpaginated(query: BasePaginationDto) {
-    const qb = this.databaseProvider
+    const qb = this.dbProvider
       .getRepository(ProductEntity)
       .createQueryBuilder('product')
       .select([

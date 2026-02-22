@@ -11,21 +11,21 @@ import {
   SelectQueryBuilder,
   UpdateResult,
 } from 'typeorm';
-import { DatabaseProvider } from './database.provider';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { DatabaseProvider } from './database.provider';
 
 export abstract class BaseRepository<T extends ObjectLiteral> {
   constructor(
     protected readonly entity: EntityTarget<T>,
-    protected readonly databaseProvider: DatabaseProvider,
+    protected readonly dbProvider: DatabaseProvider,
   ) {}
 
   protected get repository(): Repository<T> {
-    return this.databaseProvider.getRepository(this.entity);
+    return this.dbProvider.getRepository(this.entity);
   }
 
   getQueryRunner(): QueryRunner | null {
-    return this.databaseProvider.getQueryRunner();
+    return this.dbProvider.getQueryRunner();
   }
 
   async save(entity: DeepPartial<T>): Promise<T> {

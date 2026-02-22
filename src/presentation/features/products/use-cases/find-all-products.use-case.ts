@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BasePaginationDto } from 'src/presentation/common/dto/base-pagination.dto';
 import { PaginatedResponse } from '../../../common/factories/pagination.factory';
-import { ProductsRepository } from '../../sales/products.repository';
 import { FindAllProductsResponse } from '../dto/response/find-all-products.response';
+import { ProductsRepository } from '../products.repository';
 
 @Injectable()
 export class FindAllProductsUseCase {
