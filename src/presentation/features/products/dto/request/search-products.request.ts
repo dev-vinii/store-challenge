@@ -1,3 +1,4 @@
+import { FieldValue } from '@elastic/elasticsearch/lib/api/types';
 import { Type } from 'class-transformer';
 import {
   IsArray,
@@ -48,5 +49,5 @@ export class SearchProductsRequest {
   @IsOptional()
   @IsArray()
   @Type(() => Array)
-  searchAfter?: unknown[];
+  searchAfter?: FieldValue[];
 }

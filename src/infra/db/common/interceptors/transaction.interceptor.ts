@@ -16,8 +16,10 @@ export class TransactionInterceptor implements NestInterceptor {
       (async () => {
         await this.databaseProvider.startTransaction();
         try {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const result = await lastValueFrom(next.handle());
           await this.databaseProvider.commitTransaction();
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return result;
         } catch (error) {
           await this.databaseProvider.rollbackTransaction();
