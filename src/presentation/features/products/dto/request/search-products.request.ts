@@ -48,6 +48,5 @@ export class SearchProductsRequest {
 
   @IsOptional()
   @IsArray()
-  @Type(() => Array)
   searchAfter?: FieldValue[];
 }

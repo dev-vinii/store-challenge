@@ -9,9 +9,9 @@ export const productsIndex = {
       price: { type: 'integer' as const },
       stock: { type: 'integer' as const },
       tags: { type: 'keyword' as const },
-      created_at: { type: 'date' as const },
-      updated_at: { type: 'date' as const },
-      deleted_at: { type: 'date' as const },
+      createdAt: { type: 'date' as const },
+      updatedAt: { type: 'date' as const },
+      deletedAt: { type: 'date' as const },
     },
   },
 };
