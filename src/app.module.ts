@@ -7,6 +7,7 @@ import { QueueModule } from './infra/queue/queue.module';
 import { SearchModule } from './infra/search/search.module';
 import { CategoryModule } from './presentation/features/categories/categories.module';
 import { ProductModule } from './presentation/features/products/products.module';
+import { SaleModule } from './presentation/features/sales/sales.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from './presentation/features/products/products.module'
     QueueModule,
     ProductModule,
     CategoryModule,
+    SaleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

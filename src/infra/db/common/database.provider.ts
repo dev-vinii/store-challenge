@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { CategoryEntity } from './entities/postgres/category.entity';
 import { ProductEntity } from './entities/postgres/product.entity';
+import { SaleEntity } from './entities/postgres/sale.entity';
 
 export interface DatabaseConfig {
   type: 'postgres';
@@ -32,7 +33,7 @@ export class DatabaseProvider {
       username: config.username,
       password: config.password,
       database: config.database,
-      entities: [ProductEntity, CategoryEntity],
+      entities: [ProductEntity, CategoryEntity, SaleEntity],
       synchronize: config.synchronize ?? false,
       logging: config.logging ?? false,
     };
