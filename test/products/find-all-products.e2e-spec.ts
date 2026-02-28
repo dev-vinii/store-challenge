@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { createTestApp } from '../helpers/app.helper';
-import { makeProduct } from '../helpers/product.helper';
+import { createProductRequestBuilder as makeProduct } from '../../src/presentation/features/products/testing/create-product-request.builder';
 
 interface ProductResponse {
   data: Array<Record<string, unknown>>;

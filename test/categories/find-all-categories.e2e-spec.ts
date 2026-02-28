@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { makeCategory } from '../helpers/category.helper';
+import { createCategoryRequestBuilder as makeCategory } from '../../src/presentation/features/categories/testing/create-category-request.builder';
 import { createTestApp } from '../helpers/app.helper';
 
 interface CategoryResponse {
