@@ -1,7 +1,17 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
+import { App } from 'supertest/types';
 import { createTestApp } from '../helpers/app.helper';
 import { makeProduct } from '../helpers/product.helper';
+
+interface SearchResponse {
+  data: Array<Record<string, unknown>>;
+  meta: {
+    total: unknown;
+    limit: number;
+    searchAfter: string[] | null;
+  };
+}
 
 describe('GET /api/products/search', () => {
   let app: INestApplication;
@@ -10,7 +20,7 @@ describe('GET /api/products/search', () => {
     app = await createTestApp();
 
     await Promise.all([
-      request(app.getHttpServer())
+      request(app.getHttpServer() as App)
         .post('/api/products')
         .send(
           makeProduct({
@@ -20,7 +30,7 @@ describe('GET /api/products/search', () => {
             tags: ['sale', 'new'],
           }),
         ),
-      request(app.getHttpServer())
+      request(app.getHttpServer() as App)
         .post('/api/products')
         .send(
           makeProduct({
@@ -30,7 +40,7 @@ describe('GET /api/products/search', () => {
             tags: ['new'],
           }),
         ),
-      request(app.getHttpServer())
+      request(app.getHttpServer() as App)
         .post('/api/products')
         .send(
           makeProduct({
@@ -48,86 +58,91 @@ describe('GET /api/products/search', () => {
   });
 
   it('should return 200 with data and meta', async () => {
-    const res = await request(app.getHttpServer())
+    const res = await request(app.getHttpServer() as App)
       .get('/api/products/search')
       .expect(200);
+    const body = res.body as SearchResponse;
 
-    expect(res.body).toHaveProperty('data');
-    expect(res.body).toHaveProperty('meta');
-    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(body).toHaveProperty('data');
+    expect(body).toHaveProperty('meta');
+    expect(Array.isArray(body.data)).toBe(true);
   });
 
   it('should return meta with total, limit and searchAfter', async () => {
-    const res = await request(app.getHttpServer())
+    const res = await request(app.getHttpServer() as App)
       .get('/api/products/search')
       .expect(200);
+    const body = res.body as SearchResponse;
 
-    expect(res.body.meta).toHaveProperty('total');
-    expect(res.body.meta).toHaveProperty('limit');
-    expect(res.body.meta).toHaveProperty('searchAfter');
+    expect(body.meta).toHaveProperty('total');
+    expect(body.meta).toHaveProperty('limit');
+    expect(body.meta).toHaveProperty('searchAfter');
   });
 
   it('should filter by category', async () => {
-    const res = await request(app.getHttpServer())
+    const res = await request(app.getHttpServer() as App)
       .get('/api/products/search?category=electronics')
       .expect(200);
+    const body = res.body as SearchResponse;
 
-    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(Array.isArray(body.data)).toBe(true);
   });
 
   it('should filter by minPrice and maxPrice', async () => {
-    const res = await request(app.getHttpServer())
+    const res = await request(app.getHttpServer() as App)
       .get('/api/products/search?minPrice=10000&maxPrice=30000')
       .expect(200);
+    const body = res.body as SearchResponse;
 
-    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(Array.isArray(body.data)).toBe(true);
   });
 
   it('should respect limit param', async () => {
-    const res = await request(app.getHttpServer())
+    const res = await request(app.getHttpServer() as App)
       .get('/api/products/search?limit=1')
       .expect(200);
+    const body = res.body as SearchResponse;
 
-    expect(res.body.data.length).toBeLessThanOrEqual(1);
-    expect(res.body.meta.limit).toBe(1);
+    expect(body.data.length).toBeLessThanOrEqual(1);
+    expect(body.meta.limit).toBe(1);
   });
 
   it('should return 400 when limit exceeds 100', async () => {
-    await request(app.getHttpServer())
+    await request(app.getHttpServer() as App)
       .get('/api/products/search?limit=101')
       .expect(400);
   });
 
   it('should return 400 when limit is zero', async () => {
-    await request(app.getHttpServer())
+    await request(app.getHttpServer() as App)
       .get('/api/products/search?limit=0')
       .expect(400);
   });
 
   it('should return 400 when sort is invalid', async () => {
-    await request(app.getHttpServer())
+    await request(app.getHttpServer() as App)
       .get('/api/products/search?sort=invalid')
       .expect(400);
   });
 
   it('should paginate using searchAfter', async () => {
-    const first = await request(app.getHttpServer())
+    const first = await request(app.getHttpServer() as App)
       .get('/api/products/search?limit=1')
       .expect(200);
+    const firstBody = first.body as SearchResponse;
 
-    const searchAfter = first.body.meta.searchAfter;
+    const searchAfter = firstBody.meta.searchAfter;
 
     if (searchAfter) {
       const params = new URLSearchParams({ limit: '1' });
-      (searchAfter as string[]).forEach((v) =>
-        params.append('searchAfter', String(v)),
-      );
+      searchAfter.forEach((v) => params.append('searchAfter', String(v)));
 
-      const second = await request(app.getHttpServer())
+      const second = await request(app.getHttpServer() as App)
         .get(`/api/products/search?${params.toString()}`)
         .expect(200);
+      const secondBody = second.body as SearchResponse;
 
-      expect(second.body.data).toBeDefined();
+      expect(secondBody.data).toBeDefined();
     }
   });
 });

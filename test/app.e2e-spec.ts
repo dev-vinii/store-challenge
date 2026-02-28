@@ -4,7 +4,7 @@ import { App } from 'supertest/types';
 import { createTestApp } from './helpers/app.helper';
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication<App>;
+  let app: INestApplication;
 
   beforeAll(async () => {
     app = await createTestApp();
@@ -15,7 +15,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('GET /api/ping should return pong!', async () => {
-    await request(app.getHttpServer())
+    await request(app.getHttpServer() as App)
       .get('/api/ping')
       .expect(200)
       .expect('pong!');
