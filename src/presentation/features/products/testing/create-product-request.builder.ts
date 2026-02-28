@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-export function makeProduct(overrides = {}) {
+export function createProductRequestBuilder(overrides = {}) {
   return {
     name: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
