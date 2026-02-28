@@ -6,6 +6,7 @@ import {
   QueryRunner,
   Repository,
 } from 'typeorm';
+import { CategoryEntity } from './entities/postgres/category.entity';
 import { ProductEntity } from './entities/postgres/product.entity';
 
 export interface DatabaseConfig {
@@ -31,7 +32,7 @@ export class DatabaseProvider {
       username: config.username,
       password: config.password,
       database: config.database,
-      entities: [ProductEntity],
+      entities: [ProductEntity, CategoryEntity],
       synchronize: config.synchronize ?? false,
       logging: config.logging ?? false,
     };

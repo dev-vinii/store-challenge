@@ -14,7 +14,7 @@ export class CategoryPostController {
   @ApiBody({ type: CreateCategoryRequest })
   @ApiResponse({ status: 201, description: 'Category created successfully' })
   @ApiResponse({ status: 400, description: 'Invalid request data' })
-  create(@Body() category: CreateCategoryRequest): void {
-    this.createCategoryUseCase.execute(category);
+  async create(@Body() category: CreateCategoryRequest): Promise<void> {
+    await this.createCategoryUseCase.execute(category);
   }
 }

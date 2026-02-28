@@ -6,7 +6,7 @@ import { CreateCategoryRequest } from '../dto/request/create-category.request';
 export class CreateCategoryUseCase {
   constructor(private readonly categoriesRepository: CategoriesRepository) {}
 
-  execute(category: CreateCategoryRequest) {
-    this.categoriesRepository.create(category);
+  async execute(category: CreateCategoryRequest) {
+    await this.categoriesRepository.save(category);
   }
 }

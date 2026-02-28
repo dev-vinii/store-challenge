@@ -5,6 +5,7 @@ import { CacheModule } from './infra/cache/cache.module';
 import { DatabaseModule } from './infra/db/database.module';
 import { QueueModule } from './infra/queue/queue.module';
 import { SearchModule } from './infra/search/search.module';
+import { CategoryModule } from './presentation/features/categories/categories.module';
 import { ProductModule } from './presentation/features/products/products.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { ProductModule } from './presentation/features/products/products.module'
     SearchModule,
     QueueModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
